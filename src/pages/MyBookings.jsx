@@ -91,21 +91,18 @@ const MyBookings = () => {
                   <p>{booking.car.location}</p>
                 </div>
               </div>
+            </div>
+            {/* Price */}
 
-              {/* Price */}
-
-              <div className="md:col-span-1 flex flex-col justify-between gap-6">
-                <div className="text-sm text-gray-500 text-right">
-                  <p>Total Price</p>
-                  <h1 className="text-2xl font-semibold text-primary">
-                    {currency}
-                    {booking.price}
-                  </h1>
-                  <p>Booked on {booking.createdAt.split("T")[0]}</p>
-                </div>
+            <div className="md:col-span-1 flex flex-col justify-between gap-6">
+              <div className="text-sm text-gray-500 text-right">
+                <p>Total Price</p>
+                <h1 className="text-2xl font-semibold text-primary">
+                  {currency}
+                  {booking.price}
+                </h1>
+                <p>Booked on {booking.createdAt.split("T")[0]}</p>
               </div>
-
-
             </div>
           </div>
         ))}
