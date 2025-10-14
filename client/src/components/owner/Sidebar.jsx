@@ -1,15 +1,32 @@
 import React, { useState } from "react";
-import { assets, dummyUserData, ownerMenuLinks } from "../../assets/assets";
+import { assets, ownerMenuLinks } from "../../assets/assets";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const Sidebar = () => {
-  const user = dummyUserData;
+  const { user, axios, fetchUser } = useAppContext();
   const location = useLocation();
   const [image, setImage] = useState("");
 
   const updateImage = async () => {
-    user.image = URL.createObjectURL(image);
-    setImage("");
+    try {
+      const formData = new FormData();
+      formData.append("image", image);
+      const { data } = await axios.post("/api/owner/update-image", formData);
+      if (data.success) {
+        fetchUser();
+        toast.success(data.message);
+        setImage('');
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+
+    // user.image = URL.createObjectURL(image);
+    // setImage("");
   };
   return (
     <div className="relative min-h-screen md:flex flex-col items-center pt-8 max-w-13 md:max-w-60 w-full border-r border-borderColor text-sm">
@@ -52,7 +69,7 @@ const Sidebar = () => {
         </button>
       )}
 
-       {/*Owner Info */}
+      {/*Owner Info */}
       <p className="mt-2 text-base max-md:hidden">{user?.name}</p>
 
       {/*Owner Menu List */}
@@ -80,11 +97,7 @@ const Sidebar = () => {
               } w-1.5 h-9 rounded-l right-0 absolute`}
             ></div>
           </NavLink>
-
         ))}
-
-
-        
       </div>
     </div>
   );

@@ -2,9 +2,64 @@ import React, { useState } from "react";
 import Title from "../components/Title";
 import { assets, dummyCarData } from "../assets/assets";
 import CarCard from "../components/CarCard";
+import { useSearchParams } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 const Cars = () => {
+  // getting search params from url
+  const [searchParams] = useSearchParams();
+  const pickupLocation = searchParams.get("pickupLocation");
+  const pickupDate = searchParams.get("pickupDate");
+  const returnDate = searchParams.get("returnDate");
   const [input, setInput] = useState("");
+    const { cars, axios } = useAppContext();
+
+
+  const isSearchData = pickupLocation && pickupDate && returnDate;
+  const [filteredCars, setFilteredCars] = useState([]);
+
+  const applyFilter = async () => {
+    if (input === "") {
+      setFilteredCars(cars);
+      return null;
+    }
+
+    const filtered = cars.slice().filter((car) => {
+      return (
+        car.brand.toLowerCase().includes(input.toLowerCase()) ||
+        car.model.toLowerCase().includes(input.toLowerCase()) ||
+        car.category.toLowerCase().includes(input.toLowerCase()) ||
+        car.transmission.toLowerCase().includes(input.toLowerCase())
+      );
+    });
+    setFilteredCars(filtered);
+  };
+  const searchCarAvailablity = async () => {
+    const { data } = await axios.post("/api/bookings/check-availability", {
+      location: pickupLocation,
+      pickupDate,
+      returnDate,
+    });
+
+    if (data.success) {
+      setFilteredCars(data.availabileCars);
+      if (data.availabileCars.length === 0) {
+        toast("No cars available");
+      }
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    isSearchData && searchCarAvailablity();
+  }, []);
+
+  useEffect(() => {
+    cars.length > 0 && !isSearchData && applyFilter();
+  }, [input, cars]);
+
 
   return (
     <div>
@@ -17,7 +72,7 @@ const Cars = () => {
         <div className="flex items-center bg-white px-4 mt-6 max-w-140 w-full h-12 rounded-full shadow">
           <img src={assets.search_icon} alt="" className="w-4.5 h-4.5 mr-2" />
           <input
-            onClick={(e) => setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value)}
             value={input}
             type="text"
             placeholder="Search by make, model, or features"
@@ -29,11 +84,11 @@ const Cars = () => {
       <div className="px-6 md:px-16 lg:px-24 xl:px-32 mt-10">
         <p className="text-gray-500 xl:px-20 max-w-7xl mx-auto">
           <span className="border-b py-1 border-gray-500">
-            Showing {dummyCarData.length} Cars
+            Showing {filteredCars.length} Cars
           </span>
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 xl:px-20 max-w-7xl mx-auto">
-          {dummyCarData.map((car, index) => (
+          {filteredCars.map((car, index) => (
             <div key={index}>
               <CarCard carData={car} />
             </div>

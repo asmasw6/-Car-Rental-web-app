@@ -11,7 +11,7 @@ export const changeRoleToOwner = async (req, res) => {
     await User.findByIdAndUpdate(_id, { role: "owner" });
     res.json({ success: true, message: "Now you can list cars" });
   } catch (error) {
-   // console.log(error.message);
+    // console.log(error.message);
     res.json({ success: false, message: error.message });
   }
 };
@@ -116,9 +116,11 @@ export const getDashboardData = async (req, res) => {
     }
 
     const cars = await Car.find({ owner: _id });
-    const bookings = (
-      await Booking.find({ owner: _id }).populate("car")
-    ).toSorted({ createdAt: -1 });
+    const bookings = await Booking.find({ owner: _id })
+      .populate("car")
+      .sort({ createdAt: -1 });
+
+    //toSorted({ createdAt: -1 });
 
     const pendingBookings = await Booking.find({
       owner: _id,
@@ -144,7 +146,7 @@ export const getDashboardData = async (req, res) => {
       monthyRevenue,
     };
 
-    res.json({ success: true, message: dashboardData });
+    res.json({ success: true, dashboardData });
   } catch (error) {
     //console.log(error.message);
     res.json({ success: false, message: error.message });
@@ -156,8 +158,7 @@ export const updateUserImage = async (req, res) => {
   try {
     const { _id, role } = req.user;
 
-     const imageFile = req.file;
-
+    const imageFile = req.file;
 
     // Upload Image to ImageKit
     const fileBuffer = fs.readFileSync(imageFile.path);
@@ -181,12 +182,10 @@ export const updateUserImage = async (req, res) => {
 
     const image = optimizedImageURL;
 
-    await User.findByIdAndUpdate(_id, {image});
-    res.json({success: true, message: "Image Updated"})
-
+    await User.findByIdAndUpdate(_id, { image });
+    res.json({ success: true, message: "Image Updated" });
   } catch (error) {
     //console.log(error.message);
     res.json({ success: false, message: error.message });
   }
 };
-

@@ -23,7 +23,7 @@ export const AppProvider = ({ children }) => {
     try {
       const { data } = await axios.get("/api/user/data");
       if (data.success) {
-        setUser(data);
+        setUser(data.user);
         setIsOwner(data.user.role === "owner");
       } else {
         navigate("/");
@@ -36,7 +36,13 @@ export const AppProvider = ({ children }) => {
   // Function to fetch all cars from server
   const fetchCars = async () => {
     try {
-      const { data } = await axios.get("/api/user/cars");
+      const { data } = await axios.get("/api/user/cars", {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      console.log("Fetched cars:", data);
+
       data.success ? setCars(data.cars) : toast.error(data.message);
     } catch (error) {
       toast.error(error.message);

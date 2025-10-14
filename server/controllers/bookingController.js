@@ -78,6 +78,7 @@ export const getUserBookings = async (req, res) => {
     const bookings = await Booking.find({ user: _id })
       .populate("car")
       .sort({ createdAt: -1 });
+    //sort({ createdAt: -1 });
     res.json({ success: true, bookings });
   } catch (error) {
     //console.log(error.message);
@@ -93,11 +94,11 @@ export const getOwnerBookings = async (req, res) => {
       return res.json({ success: false, message: "Unauthorized" });
     }
 
-    const bookings = await (
-      await Booking.find({ owner: req.user._id })
-        .populate("car user")
-        .select("-user.password")
-    ).toSorted({ createdAt: -1 });
+    const bookings = await Booking.find({ owner: req.user._id })
+      .populate("car user")
+      .select("-user.password")
+      .sort({ createdAt: -1 });
+    //toSorted({ createdAt: -1 });
     res.json({ success: true, bookings });
   } catch (error) {
     //console.log(error.message);

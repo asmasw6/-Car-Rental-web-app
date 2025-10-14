@@ -1,8 +1,22 @@
 import React, { useState } from "react";
 import { assets, cityList } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
 
 const Hero = () => {
   const [pickupLocation, setPickupLocation] = useState("");
+  const { pickupDate, setPickupDate, returDate, setReturnDate, navigate } =
+    useAppContext();
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(
+      "/cars?pickupLocation=" +
+        pickupLocation +
+        "&pickupDate=" +
+        pickupDate +
+        "&returnDate=" +
+        returDate
+    );
+  };
   return (
     <div className="h-screen flex flex-col items-center justify-center gap-14 bg-light text-center">
       <h1 className="text-4xl md:text-5xl font-semibold">
@@ -10,6 +24,7 @@ const Hero = () => {
       </h1>
 
       <form
+        onSubmit={handleSearch}
         action=""
         className="flex flex-col md:flex-row items-start md:items-center 
         justify-between p-6 rounded-lg md:rounded-full w-full max-w-80 md:max-w-200 
@@ -42,6 +57,8 @@ const Hero = () => {
           <div className="flex flex-col items-start gap-2">
             <label htmlFor="pickup-date">Pick-up Date</label>
             <input
+              value={pickupDate}
+              onChange={(e) => setPickupDate(e.target.value)}
               type="date"
               id="pickup-date"
               min={new Date().toISOString().split("T")[0]}
@@ -53,6 +70,8 @@ const Hero = () => {
           <div className="flex flex-col items-start gap-2">
             <label htmlFor="return-date">Return Date</label>
             <input
+              value={returDate}
+              onChange={(e) => setReturnDate(e.target.value)}
               type="date"
               id="return-date"
               className="text-sm text-gray-500"
@@ -62,16 +81,16 @@ const Hero = () => {
         </div>
 
         <button
-            className="felx items-center justify-items-center gap-1 px-9 py-3 max-sm:mt-4 
+          className="felx items-center justify-items-center gap-1 px-9 py-3 max-sm:mt-4 
           bg-primary hover:bg-primary-dull text-white rounded-full cursor-pointer"
-          >
-            <img
-              src={assets.search_icon}
-              alt="search"
-              className="brightness-300"
-            />
-            Search
-          </button>
+        >
+          <img
+            src={assets.search_icon}
+            alt="search"
+            className="brightness-300"
+          />
+          Search
+        </button>
       </form>
 
       <img src={assets.main_car} alt="car" className="max-h-74" />

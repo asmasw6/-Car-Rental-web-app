@@ -23,7 +23,7 @@ const App = () => {
       <Toaster />
 
       {showLogin && <Login  />}
-      {!isOwnerPath && <Navbar setShowLogin={setShowLogin} />}
+      {!isOwnerPath && <Navbar  />}
 
       <Routes>
         <Route path="/" element={<Home />} />
