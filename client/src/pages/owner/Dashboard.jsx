@@ -15,7 +15,7 @@ const Dashboard = () => {
     pendingBookings: 0,
     completedBookings: 0,
     recentBookings: [],
-    monthlyRevenue: 0,
+    monthelyRevenue: 0,
   });
 
   const dashboardCards = [
@@ -35,6 +35,7 @@ const Dashboard = () => {
       value: data.completedBookings,
       icon: assets.listIconColored,
     },
+    
   ];
 
   const fetchDashboardData = async()=>{
@@ -135,7 +136,7 @@ const Dashboard = () => {
           <p className="text-gray-500">Revenue for current month</p>
           <p className="text-3xl mt-6 font-semibold text-primary">
             {currency}
-            {data.monthlyRevenue}
+            {data.monthelyRevenue}
           </p>
         </div>
       </div>

@@ -57,17 +57,17 @@ const CarCard = ({ carData }) => {
 
           <div className="flex items-center text-sm text-muted-foreground">
             <img src={assets.fuel_icon} alt="" className="h-4 mr-2" />
-            <span>{carData.fuel_type} Seats</span>
+            <span>{carData.fuel_type} </span>
           </div>
 
           <div className="flex items-center text-sm text-muted-foreground">
             <img src={assets.car_icon} alt="" className="h-4 mr-2" />
-            <span>{carData.transmission} Seats</span>
+            <span>{carData.transmission}</span>
           </div>
 
           <div className="flex items-center text-sm text-muted-foreground">
             <img src={assets.location_icon} alt="" className="h-4 mr-2" />
-            <span>{carData.location} Seats</span>
+            <span>{carData.location}</span>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Title from "../../components/owner/Title";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
@@ -90,7 +90,7 @@ const ManageBookings = () => {
                 <td className="p-3">
                   {booking.status === "pending" ? (
                     <select
-                      onChange={(e) =>
+                      onChange={e =>
                         changeBookingStatus(booking._id, e.target.value)
                       }
                       value={booking.status}

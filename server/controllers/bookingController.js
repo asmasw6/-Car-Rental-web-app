@@ -19,17 +19,17 @@ export const checkAvailabilityOfCar = async (req, res) => {
 
     //check car availabilty for the given date range using promise
     const availableCarsPromise = cars.map(async (car) => {
-      const isAvailable = await checkAvailability(
+      const isAvaliable = await checkAvailability(
         car._id,
         pickupDate,
         returnDate
       );
 
-      return { ...car._doc, isAvailable: isAvailable };
+      return { ...car._doc, isAvaliable: isAvaliable };
     });
 
     let availabileCars = await Promise.all(availableCarsPromise);
-    availabileCars = availabileCars.filter((car) => car.isAvailable === true);
+    availabileCars = availabileCars.filter((car) => car.isAvaliable === true);
     res.json({ success: true, availabileCars });
   } catch (error) {
     //console.log(error.message);
@@ -43,8 +43,8 @@ export const createBooking = async (req, res) => {
     const { _id } = req.user;
     const { car, pickupDate, returnDate } = req.body;
 
-    const isAvailable = await checkAvailability(car, pickupDate, returnDate);
-    if (!isAvailable) {
+    const isAvaliable = await checkAvailability(car, pickupDate, returnDate);
+    if (!isAvaliable) {
       return res.json({ success: false, message: "Car is not available" });
     }
 

@@ -176,7 +176,7 @@ const AddCar = () => {
             <label>Fuel Type</label>
             <select
               onChange={(e) => setCar({ ...car, fuel_type: e.target.value })}
-              value={car.transmission}
+              value={car.fuel_type}
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
             >
               <option value="">Select a fuel type</option>

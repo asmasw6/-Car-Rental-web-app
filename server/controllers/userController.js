@@ -6,7 +6,10 @@ import jwt from "jsonwebtoken";
 // Generate JWT Token
 
 const generateToken = (userId) => {
-  return jwt.sign(userId, process.env.JWT_SECRET);
+  return jwt.sign({ id: userId}, process.env.JWT_SECRET, {
+  expiresIn: "30d",
+});
+  //jwt.sign(userId, process.env.JWT_SECRET);
 };
 
 // Register User
@@ -79,11 +82,12 @@ export const getUserData = async (req, res) => {
 
 export const getCarsData = async (req, res) => {
   try {
-    const cars = await Car.find({ isAvailable: true });
+    const cars = await Car.find({ isAvaliable: true });
     res.json({
       success: true,
       cars,
     });
+    console.log("Get Data >>>>>>. CARS  " + cars.length)
   } catch (error) {
     // console.log(error.message);
     res.json({ success: false, message: error.message });

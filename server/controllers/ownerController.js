@@ -132,7 +132,7 @@ export const getDashboardData = async (req, res) => {
     });
 
     // caclute monthlyRevenue from bookings where status is confirmed
-    const monthyRevenue = bookings
+    const monthelyRevenue = bookings
       .slice()
       .filter((booking) => booking.status == "confirmed")
       .reduce((acc, booking) => acc + booking.price, 0);
@@ -143,7 +143,7 @@ export const getDashboardData = async (req, res) => {
       pendingBookings: pendingBookings.length,
       completedBookings: completedBookings.length,
       recentBookings: bookings.slice(0, 3),
-      monthyRevenue,
+      monthelyRevenue,
     };
 
     res.json({ success: true, dashboardData });

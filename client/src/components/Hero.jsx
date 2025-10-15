@@ -4,7 +4,7 @@ import { useAppContext } from "../context/AppContext";
 
 const Hero = () => {
   const [pickupLocation, setPickupLocation] = useState("");
-  const { pickupDate, setPickupDate, returDate, setReturnDate, navigate } =
+  const { pickupDate, setPickupDate, returnDate, setReturnDate, navigate } =
     useAppContext();
   const handleSearch = (e) => {
     e.preventDefault();
@@ -14,7 +14,7 @@ const Hero = () => {
         "&pickupDate=" +
         pickupDate +
         "&returnDate=" +
-        returDate
+        returnDate
     );
   };
   return (
@@ -70,7 +70,7 @@ const Hero = () => {
           <div className="flex flex-col items-start gap-2">
             <label htmlFor="return-date">Return Date</label>
             <input
-              value={returDate}
+              value={returnDate}
               onChange={(e) => setReturnDate(e.target.value)}
               type="date"
               id="return-date"

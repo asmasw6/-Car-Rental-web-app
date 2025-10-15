@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { assets, dummyCarData } from "../assets/assets";
+import { assets } from "../assets/assets";
 import { Loader } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
+
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -33,7 +35,7 @@ const CarDetails = () => {
   };
 
   useEffect(() => {
-    setCar(car.find((car) => car._id === id));
+    setCar(cars.find((car) => car._id === id));
   }, [cars, id]);
 
   return car ? (

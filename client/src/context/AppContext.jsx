@@ -36,9 +36,11 @@ export const AppProvider = ({ children }) => {
   // Function to fetch all cars from server
   const fetchCars = async () => {
     try {
+      console.log("Token before request:", token);
+
       const { data } = await axios.get("/api/user/cars", {
         headers: {
-          Authorization: `${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       console.log("Fetched cars:", data);
@@ -63,16 +65,17 @@ export const AppProvider = ({ children }) => {
   //useEffect to retrieve the token from localStorage
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setToken(token);
-
-    fetchCars();
+    if (token) {
+      setToken(token);
+    }
   }, []);
 
   //useEffect to fetch user data when the token is available
   useEffect(() => {
     if (token) {
-      axios.defaults.headers.common["Authorization"] = `${token}`;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       fetchUser();
+      fetchCars();
     }
   }, [token]);
 

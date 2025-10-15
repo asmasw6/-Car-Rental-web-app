@@ -14,7 +14,7 @@ const Cars = () => {
   const pickupDate = searchParams.get("pickupDate");
   const returnDate = searchParams.get("returnDate");
   const [input, setInput] = useState("");
-    const { cars, axios } = useAppContext();
+  const { cars, axios } = useAppContext();
 
 
   const isSearchData = pickupLocation && pickupDate && returnDate;
@@ -36,6 +36,8 @@ const Cars = () => {
     });
     setFilteredCars(filtered);
   };
+
+  
   const searchCarAvailablity = async () => {
     const { data } = await axios.post("/api/bookings/check-availability", {
       location: pickupLocation,
