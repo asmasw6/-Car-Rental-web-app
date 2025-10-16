@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { assets, dummyMyBookingsData } from "../assets/assets";
+import { useEffect, useState } from "react";
+import { assets } from "../assets/assets";
 import Title from "../components/Title";
 import { useAppContext } from "../context/AppContext";
 import { motion } from "motion/react";

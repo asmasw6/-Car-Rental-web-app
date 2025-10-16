@@ -3,7 +3,7 @@ import { assets } from "../assets/assets";
 import CarCard from "./CarCard";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-import { easeOut, motion } from "motion/react";
+import { motion } from "motion/react";
 
 const FeatureSection = () => {
   const navigate = useNavigate();
